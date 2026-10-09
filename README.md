@@ -1,183 +1,161 @@
 # Enterprise Financial Analytics & Forecasting System
 
-An end-to-end business analytics and machine learning project built using Python, Pandas, NumPy, SQL, Scikit-learn, and statistical techniques. The system processes retail transaction data, analyzes financial performance, forecasts monthly revenue, detects unusual financial patterns, and generates data-driven business insights.
+An end-to-end analytics portfolio project built around the **Sample Superstore** dataset. It demonstrates data ingestion, SQL storage, cleaning, EDA, statistical KPIs, time-series feature engineering, revenue forecasting, anomaly detection, and automated business insights.
 
-## Key Features
+> **Data honesty:** Sample Superstore is retail order data, not a complete corporate general ledger. This project forecasts revenue and analyses recorded profit. It does not claim to have actual operating expenses, departmental budgets, or audited financial statements.
 
-- **Data Cleaning:** Handle missing values, invalid dates, duplicate records, and inconsistent data types.
-- **SQL Database:** Store cleaned transactions and monthly aggregates using SQLite.
-- **Exploratory Data Analysis:** Analyze revenue, profit, regional performance, and product category profitability.
-- **Financial KPIs:** Calculate total sales, total profit, profit margin, and order counts.
-- **Feature Engineering:** Create time-based features, lag variables, and rolling statistical features.
-- **Revenue Forecasting:** Apply a Random Forest regression model to predict monthly revenue and evaluate performance using MAE and RMSE.
-- **Anomaly Detection:** Use Isolation Forest to identify unusual monthly revenue and profit patterns.
-- **Business Insights:** Generate automated insights to highlight regional and category performance.
-- **Data Export:** Export cleaned transactions, monthly summaries, revenue forecasts, and anomaly reports to CSV files.
-
-## Technology Stack
-
-- **Language:** Python
-- **Data Analysis:** Pandas, NumPy
-- **Database:** SQLite, SQL
-- **Machine Learning:** Scikit-learn
-- **Statistical Analysis:** Descriptive statistics, correlation analysis
-- **Visualization:** Matplotlib
-- **Dashboard (Optional):** Streamlit
-
-## Project Architecture
+## Architecture
 
 ```text
 Sample Superstore CSV
         |
         v
-Data Ingestion & Validation
+Column standardization + validation
         |
         v
-Data Cleaning (Pandas)
+Pandas cleaning and feature engineering
         |
-        v
-SQLite Database
-        |
-        v
-EDA & Statistical Analysis
-        |
-        v
-Feature Engineering
-        |
-        +----------------------+
-        |                      |
-        v                      v
-Revenue Forecasting     Anomaly Detection
-(Random Forest)         (Isolation Forest)
-        |                      |
-        +-----------+----------+
-                    |
-                    v
-          Business Insights
-                    |
-                    v
-       CSV Reports & Outputs
+        +--------------------------+
+        |                          |
+        v                          v
+SQLite database              EDA + KPI analysis
+(sales_clean,                      |
+ monthly_summary)                  |
+        |                          |
+        +------------+-------------+
+                     |
+           +---------+---------+
+           |                   |
+           v                   v
+ Monthly revenue forecast   Anomaly detection
+           |                   |
+           +---------+---------+
+                     |
+                     v
+        Business insights + CSV exports
+                     |
+                     v
+             Streamlit dashboard
 ```
 
-## Dataset
+## Features
 
-This project uses the Sample Superstore retail dataset, which contains order-level information such as order dates, sales, profit, product categories, customer segments, and regions.
+- Load a CSV with common Sample Superstore column-name variants.
+- Validate required fields and parse dates/numeric columns.
+- Report invalid dates and exact duplicate rows removed.
+- Derive year, month, quarter, monthly period, and profit margin.
+- Persist cleaned transactions and monthly summaries in SQLite.
+- KPIs: sales, profit, margin, order count.
+- EDA: monthly trends, regional performance, category profitability.
+- Forecast monthly revenue using lag and rolling features with a chronological holdout.
+- Evaluate forecasts with MAE and RMSE when enough history is available.
+- Flag unusual months with Isolation Forest.
+- Generate rule-based business insights.
+- Export cleaned data, monthly summaries, forecasts, and anomaly reports.
 
-**Dataset source:** [Sample Superstore Dataset on Kaggle](https://www.kaggle.com/datasets/vivek468/superstore-dataset-final)
+## 1. Get the dataset
 
-Download the dataset and place the CSV file in the project's `data/` directory.
+Download the classic Sample Superstore CSV:
+https://www.kaggle.com/datasets/vivek468/superstore-dataset-final
+
+Unzip the download. Place the CSV at:
 
 ```text
-data/
-└── Sample - Superstore.csv
+data/Sample - Superstore.csv
 ```
 
-Note: The dataset provides retail sales and recorded profit rather than complete corporate financial statements. The project focuses on retail financial analysis and revenue forecasting; it does not claim to use actual departmental budgets or operating expense ledgers.
+If the downloaded file has another name, either rename it or pass its path to the CLI. The dashboard also allows a CSV upload.
 
-## Project Structure
+## 2. Setup on Windows
 
-```text
-enterprise-financial-analytics/
-├── data/
-│   └── Sample - Superstore.csv
-├── outputs/
-├── src/
-│   ├── __init__.py
-│   └── analytics.py
-├── app.py
-├── run_pipeline.py
-├── requirements.txt
-├── .gitignore
-└── README.md
-```
-
-## Installation and Setup
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/YOUR_USERNAME/enterprise-financial-analytics.git
-cd enterprise-financial-analytics
-```
-
-Replace `YOUR_USERNAME` with your GitHub username.
-
-### 2. Create a virtual environment
-
-Windows:
+Open Command Prompt or the VS Code terminal inside this project folder.
 
 ```powershell
 py -m venv .venv
 .\.venv\Scripts\activate
-```
-
-### 3. Install dependencies
-
-```bash
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 4. Add the dataset
+## 3. Run the dashboard
 
-Download the Sample Superstore CSV and place it in the `data/` directory using the filename specified above.
-
-### 5. Run the analytics pipeline
-
-```bash
-python run_pipeline.py
-```
-
-The pipeline processes the dataset, stores results in SQLite, generates forecasts and anomaly reports, and prints business insights in the terminal.
-
-### 6. Optional: Launch the dashboard
-
-```bash
+```powershell
 streamlit run app.py
 ```
 
-The dashboard displays KPIs, financial trends, forecasts, anomaly detection results, and downloadable reports.
+Open the local URL shown in the terminal. Upload the CSV in the sidebar if it is not in the default `data` path.
 
-## Generated Outputs
+## 4. Run the pipeline without the dashboard
 
-The pipeline generates the following files in the `outputs/` directory:
+```powershell
+python run_pipeline.py
+```
 
-- `superstore.db` — SQLite database containing cleaned transactions and monthly summaries.
-- `superstore_cleaned.csv` — Cleaned transaction data.
-- `monthly_summary.csv` — Monthly revenue, profit, order counts, and profit margins.
-- `revenue_forecast.csv` — Predicted revenue for future months.
-- `monthly_anomalies.csv` — Monthly financial patterns flagged as unusual.
-- `quality_report.json` — Data quality summary.
+Or specify a different CSV:
 
-## Forecast Evaluation
+```powershell
+python run_pipeline.py --input "C:\Users\YourName\Downloads\SampleSuperstore.csv" --horizon 6
+```
 
-Forecasting performance is evaluated using:
+Outputs are written to `outputs/`:
+- `superstore.db` — SQLite database
+- `superstore_cleaned.csv`
+- `monthly_summary.csv`
+- `revenue_forecast.csv`
+- `monthly_anomalies.csv`
+- `quality_report.json`
 
-- **Mean Absolute Error (MAE):** Measures the average absolute prediction error.
-- **Root Mean Squared Error (RMSE):** Penalizes larger prediction errors more heavily.
+## SQL examples
 
-The model uses a chronological train/test split to reduce information leakage from future observations into the training data. Forecast accuracy depends on the amount and quality of available historical data.
+```sql
+-- Monthly revenue and profit
+SELECT strftime('%Y-%m', order_month) AS month,
+       SUM(revenue) AS revenue,
+       SUM(profit) AS profit
+FROM monthly_summary
+GROUP BY month
+ORDER BY month;
 
-## Limitations
+-- Regional profitability
+SELECT region, SUM(sales) AS sales, SUM(profit) AS profit
+FROM sales_clean
+GROUP BY region
+ORDER BY profit DESC;
 
-- The dataset is retail transaction data, not a complete enterprise accounting ledger.
-- Anomaly detection flags unusual patterns for investigation; it does not establish fraud or explain the cause.
-- Forecasts are estimates and should be evaluated against simple baseline models.
-- Correlations between discounts, sales, and profit do not establish causation.
+-- Lowest-profit product category
+SELECT category, SUM(profit) AS profit
+FROM sales_clean
+GROUP BY category
+ORDER BY profit ASC;
+```
 
-## Future Improvements
+## Methodology and limitations
 
-- Add budget-versus-actual analysis using a clearly defined budget dataset.
-- Compare Random Forest forecasts with statistical forecasting models.
-- Add forecast backtesting and confidence intervals.
-- Develop more advanced anomaly detection and root-cause analysis.
-- Integrate a full financial database with departmental expenses and budget allocations.
+### Cleaning
+- Required fields: order date, sales, and profit.
+- Unparseable dates and rows without required financial values are removed.
+- Exact duplicate rows are removed; similar-looking rows are retained because repeated line items may be legitimate.
+- Missing category/dimension values are labelled `Unknown`; missing quantity and discount values are set to zero where those columns exist.
+- No currency conversion is performed. Values remain in the dataset's original units/currency.
 
-## Author
+### Forecasting
+- The target is monthly revenue, aggregated from order-line sales.
+- Lag and rolling features are created using only prior observations.
+- Evaluation uses a chronological 80/20 split rather than a random split.
+- Small datasets use a seasonal-naive/last-value fallback. A very short history should not be presented as a reliable forecast.
+- Recursive multi-step forecasts can drift. Compare against a simple baseline before making claims about model quality.
 
-**Sandeep Kumar Patra**
+### Anomaly detection
+Isolation Forest flags unusual monthly combinations of revenue, profit, and margin. An anomaly is only a review signal; it is not proof of fraud, error, or a business cause.
 
-B.Tech in Electronics and Telecommunication Engineering | Aspiring AI/ML and Data Analytics Professional
+### Business insights
+The app produces descriptive insights from the uploaded data. Correlation does not establish causation. Validate any finding before using it for a business decision.
 
-## License
+## Suggested resume bullet
 
-This project is available under the MIT License.
+**Enterprise Financial Analytics & Forecasting System | Python, Pandas, SQL, Scikit-learn, Streamlit**
+- Built an end-to-end retail financial analytics pipeline using Sample Superstore data, storing cleaned transactions and monthly aggregates in SQLite.
+- Engineered time-based features and evaluated monthly revenue forecasts with chronological holdout MAE/RMSE.
+- Implemented Isolation Forest to flag unusual monthly revenue/profit patterns and generated region/category profitability insights through an interactive Streamlit dashboard.
+
+Only list model performance metrics on your resume after running the project and recording the actual results.
