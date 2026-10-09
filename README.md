@@ -151,11 +151,3 @@ Isolation Forest flags unusual monthly combinations of revenue, profit, and marg
 ### Business insights
 The app produces descriptive insights from the uploaded data. Correlation does not establish causation. Validate any finding before using it for a business decision.
 
-## Suggested resume bullet
-
-**Enterprise Financial Analytics & Forecasting System | Python, Pandas, SQL, Scikit-learn, Streamlit**
-- Built an end-to-end retail financial analytics pipeline using Sample Superstore data, storing cleaned transactions and monthly aggregates in SQLite.
-- Engineered time-based features and evaluated monthly revenue forecasts with chronological holdout MAE/RMSE.
-- Implemented Isolation Forest to flag unusual monthly revenue/profit patterns and generated region/category profitability insights through an interactive Streamlit dashboard.
-
-Only list model performance metrics on your resume after running the project and recording the actual results.
