@@ -151,3 +151,8 @@ Isolation Forest flags unusual monthly combinations of revenue, profit, and marg
 ### Business insights
 The app produces descriptive insights from the uploaded data. Correlation does not establish causation. Validate any finding before using it for a business decision.
 
+<img width="1920" height="1080" alt="Screenshot (316)" src="https://github.com/user-attachments/assets/e5d7583f-6df3-4a8e-8414-8a926598a53c" />
+<img width="1920" height="1080" alt="Screenshot (315)" src="https://github.com/user-attachments/assets/9096b7f6-49a4-4ee2-bbac-dc98e2e460e3" />
+<img width="1920" height="1080" alt="Screenshot (314)" src="https://github.com/user-attachments/assets/82941eab-38f4-4c88-af05-1ffb1b707214" />
+<img width="1920" height="1080" alt="Screenshot (313)" src="https://github.com/user-attachments/assets/914942b8-f1c1-4b72-aa7a-6a76ff8d8ff4" />
+<img width="1920" height="1080" alt="Screenshot (312)" src="https://github.com/user-attachments/assets/c2bf07b4-3b05-49c2-baad-4b5e58b28ba4" />
